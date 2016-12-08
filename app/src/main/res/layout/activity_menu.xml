@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_menu"
     android:layout_width="match_parent"
@@ -10,8 +11,34 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="ph.edu.uplb.ics.cs191.randomquizgenerator.MenuActivity">
 
-    <TextView
+    <Button
+        android:text="@string/help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!" />
+        android:layout_marginTop="12dp"
+        android:id="@+id/buttonHelp"
+        tools:text="@string/help"
+        android:layout_below="@+id/buttonStart"
+        android:layout_alignLeft="@+id/buttonStart"
+        android:layout_alignStart="@+id/buttonStart" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_launcher"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="38dp" />
+
+    <Button
+        android:text="@string/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:id="@+id/buttonStart"
+        tools:text="@string/start"
+        android:layout_below="@+id/imageView"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
