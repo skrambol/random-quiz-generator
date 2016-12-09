@@ -2,12 +2,16 @@ package ph.edu.uplb.ics.cs191.randomquizgenerator;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class QuizDatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "Quiz";
     private static final int DB_VERSION = 1;
+
+    public static final int HIGHSCORE_LIMIT = 10;
 
     public QuizDatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -1034,13 +1038,29 @@ public class QuizDatabaseHelper extends SQLiteOpenHelper {
                 "D");
     }
 
+    public Cursor getHighscores() {
+       Cursor cursor = getReadableDatabase().query("HIGHSCORE",
+            new String[]{"_id", "NAME", "SCORE"},
+            null,
+            null,
+            null,
+            null,
+            "SCORE DESC, _id DESC",
+            String.valueOf(HIGHSCORE_LIMIT)
+       );
+
+        return cursor;
+    }
+
     public void insertHighscore(SQLiteDatabase db, String name, int score) {
         ContentValues highscoreInfo = new ContentValues();
         highscoreInfo.put("NAME", name);
         highscoreInfo.put("SCORE", score);
 
         db.insert("HIGHSCORE", null, highscoreInfo);
+        Log.i("highscore", "added " + name + " with " + String.valueOf(score));
     }
+
     private void populateHighscores(SQLiteDatabase db) {
 
     }

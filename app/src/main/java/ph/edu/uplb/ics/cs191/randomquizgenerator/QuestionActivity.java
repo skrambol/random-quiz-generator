@@ -1,5 +1,6 @@
 package ph.edu.uplb.ics.cs191.randomquizgenerator;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -21,7 +22,6 @@ public class QuestionActivity extends AppCompatActivity {
     private int seconds;
     private boolean running;
     private int score;
-    private String yourAnswer;
     private String correctAnswer;
     private int currentQuestion;
     private LinkedList<Question> questions;
@@ -29,13 +29,13 @@ public class QuestionActivity extends AppCompatActivity {
     private Toast toastCorrect;
     private Toast toastWrong;
     private Toast toastNoTime;
-    public static final int MIN_TIME = 10;
+    public static final int MIN_TIME = 60;
     public static final int NUM_QUESTIONS = 10;
     private Button buttonA;
     private Button buttonB;
     private Button buttonC;
     private Button buttonD;
-    private Button buttonNext;
+    private TextView textViewScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,11 @@ public class QuestionActivity extends AppCompatActivity {
         buttonB = (Button) findViewById(R.id.buttonB);
         buttonC = (Button) findViewById(R.id.buttonC);
         buttonD = (Button) findViewById(R.id.buttonD);
-        buttonNext = (Button) findViewById(R.id.buttonNext);
+        textViewScore = (TextView) findViewById(R.id.textViewScore);
+
+        Button buttonNext = (Button) findViewById(R.id.buttonNext);
+        TextView textViewScoreLabel = (TextView) findViewById(R.id.textView5);
+        TextView textViewTimeLeft = (TextView) findViewById(R.id.textViewTimeLeft);
 
         questions = new LinkedList<Question>();
         running = false;
@@ -81,25 +85,16 @@ public class QuestionActivity extends AppCompatActivity {
 
         }
 
-        final TextView textViewScore = (TextView) findViewById(R.id.textViewScore);
 
 
         View.OnClickListener onAnswer = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (seconds > 0 && correctAnswer.equals(((Button)v).getText())) {
-                    score++;
-                    textViewScore.setText(String.valueOf(score));
-                    toastCorrect.show();
-                    nextQuestion();
+                    correct();
                 }
                 else {
-                    toastWrong.show();
-                    seconds = -1;
-                    buttonA.setEnabled(false);
-                    buttonB.setEnabled(false);
-                    buttonC.setEnabled(false);
-                    buttonD.setEnabled(false);
+                    wrong();
                 }
             }
         };
@@ -112,6 +107,19 @@ public class QuestionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 nextQuestion();
+            }
+        });
+
+        textViewScoreLabel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                correct();
+            }
+        });
+        textViewTimeLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                seconds = 10;
             }
         });
 
@@ -138,6 +146,7 @@ public class QuestionActivity extends AppCompatActivity {
 
                     if (seconds == 0) {
                         toastNoTime.show();
+                        choicesSetEnabled(false);
                     }
 
                     seconds--;
@@ -150,27 +159,53 @@ public class QuestionActivity extends AppCompatActivity {
     }
 
     private void nextQuestion() {
-        seconds = MIN_TIME;
         currentQuestion++;
 
-        Question q = questions.get(currentQuestion);
-        TextView textViewQuestion = (TextView) findViewById(R.id.textViewQuestion);
-        TextView textViewA = (TextView) findViewById(R.id.textViewA);
-        TextView textViewB = (TextView) findViewById(R.id.textViewB);
-        TextView textViewC = (TextView) findViewById(R.id.textViewC);
-        TextView textViewD = (TextView) findViewById(R.id.textViewD);
+        if (currentQuestion == NUM_QUESTIONS) {
+            running = false;
+            Intent intent = new Intent(QuestionActivity.this, EndActivity.class);
+            intent.putExtra("score", score);
+            startActivity(intent);
+            finish();
+        }
+        else {
+            seconds = MIN_TIME;
+            Question q = questions.get(currentQuestion);
+            TextView textViewQuestion = (TextView) findViewById(R.id.textViewQuestion);
+            TextView textViewA = (TextView) findViewById(R.id.textViewA);
+            TextView textViewB = (TextView) findViewById(R.id.textViewB);
+            TextView textViewC = (TextView) findViewById(R.id.textViewC);
+            TextView textViewD = (TextView) findViewById(R.id.textViewD);
 
-        textViewQuestion.setText(q.getQuestion());
-        textViewA.setText(q.getChoiceA());
-        textViewB.setText(q.getChoiceB());
-        textViewC.setText(q.getChoiceC());
-        textViewD.setText(q.getChoiceD());
+            textViewQuestion.setText(q.getQuestion());
+            textViewA.setText(q.getChoiceA());
+            textViewB.setText(q.getChoiceB());
+            textViewC.setText(q.getChoiceC());
+            textViewD.setText(q.getChoiceD());
 
-        buttonA.setEnabled(true);
-        buttonB.setEnabled(true);
-        buttonC.setEnabled(true);
-        buttonD.setEnabled(true);
+            getSupportActionBar().setTitle("Question " + (currentQuestion+1) + " of " + NUM_QUESTIONS);
+            choicesSetEnabled(true);
+            correctAnswer = q.getAnswer();
+        }
+    }
 
-        correctAnswer = q.getAnswer();
+    private void choicesSetEnabled(boolean enabled) {
+        buttonA.setEnabled(enabled);
+        buttonB.setEnabled(enabled);
+        buttonC.setEnabled(enabled);
+        buttonD.setEnabled(enabled);
+    }
+
+    private void correct() {
+        score++;
+        textViewScore.setText(String.valueOf(score));
+        toastCorrect.show();
+        nextQuestion();
+    }
+
+    private void wrong() {
+        toastWrong.show();
+        seconds = -1;
+        choicesSetEnabled(false);
     }
 }

@@ -12,12 +12,12 @@
     tools:context="ph.edu.uplb.ics.cs191.randomquizgenerator.MenuActivity">
 
     <Button
-        android:text="@string/help"
+        android:text="@string/high_scores"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:id="@+id/buttonHelp"
-        tools:text="@string/help"
+        tools:text="@string/high_scores"
         android:layout_below="@+id/buttonStart"
         android:layout_alignLeft="@+id/buttonStart"
         android:layout_alignStart="@+id/buttonStart" />

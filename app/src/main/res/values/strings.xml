@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">RandomQuizGenerator</string>
+    <string name="app_name">Random Quiz Generator</string>
     <string name="start">Start</string>
-    <string name="help">Help</string>
+    <string name="high_scores">High Scores</string>
     <string name="quit">Quit</string>
     <string name="a">A</string>
     <string name="b">B</string>
@@ -10,4 +10,7 @@
     <string name="time_left">Time left: </string>
     <string name="score">Score: </string>
     <string name="next">Next</string>
+    <string name="play_again">Play Again</string>
+    <string name="name">Name</string>
+    <string name="submit">submit</string>
 </resources>

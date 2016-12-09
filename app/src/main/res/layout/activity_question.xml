@@ -73,15 +73,6 @@
         android:id="@+id/buttonNext" />
 
     <TextView
-        android:text="@string/time_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewTimeLeft"
-        android:layout_alignBaseline="@+id/buttonNext"
-        android:layout_alignBottom="@+id/buttonNext"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
         android:text="@string/score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,15 +80,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/textView5" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textViewScore"
-        android:text="0"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/textView5"
-        android:layout_toEndOf="@+id/textView5" />
 
     <TextView
         android:text="TextView"
@@ -148,10 +130,27 @@
         android:layout_height="wrap_content"
         android:id="@+id/textViewTime"
         android:text="00"
-        android:layout_alignBaseline="@+id/textViewTimeLeft"
-        android:layout_alignBottom="@+id/textViewTimeLeft"
-        android:layout_toRightOf="@+id/textViewTimeLeft"
-        android:layout_toEndOf="@+id/textViewTimeLeft"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp" />
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="@string/time_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewTimeLeft"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/textViewTime"
+        android:layout_toStartOf="@+id/textViewTime"
+        android:layout_marginRight="11dp"
+        android:layout_marginEnd="11dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textViewScore"
+        android:text="0"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/buttonA"
+        android:layout_alignEnd="@+id/buttonA" />
 </RelativeLayout>
